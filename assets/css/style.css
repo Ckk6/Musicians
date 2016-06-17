@@ -1,4 +1,19 @@
 .button 
 {
-	margin:5px;
+	margin:10px;
+}
+
+.o-row-adj
+{
+	bottom-margin:20px; 
+}
+
+.o-image
+{
+	padding:20px;
+}
+
+#image-area
+{
+	padding:15px;
 }

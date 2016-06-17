@@ -3,12 +3,72 @@ $(document).ready(function() {
 	//Create array to hold input box values
 	//set initial array value to initial button
 
- 	var  character = ['Prince'];
+ 	var  character = ['Madonna','Michael Jackson','Prince'];
  	var charindex = 1;
  	var same = false
  	console.log(character);
  	var result;
+//================================================================================
+$('.first-button').on('click', function() {
+						var artist = $(this).data('person');
+						console.log('artist is ' + artist);
+						console.log('$(this).data() ' + $(this).data('person'));
+						console.log(this);
 
+						
+						//create a query  public key "dc6zaTOxFJmzC”
+
+							//build a url using api parameters
+							var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + artist + "&api_key=dc6zaTOxFJmzC&limit=20";
+							//q - search query term or phrase
+							//limit - (optional) number of results to return, maximum 100. Default 25
+							//rating - limit results to those rated (y,g, pg, pg-13 or r).
+							//fmt - (optional) return results in html or json format (useful for viewing responses as GIFs to debug/test)
+						//do an ajax request
+						//make ajax request
+						$.ajax({
+							url: queryURL, 
+							method: 'GET'
+						})
+						.done(function(response)
+							{
+							//console.log json response	
+							
+							result = response.data;
+							  
+						
+							console.log(result); 
+
+						
+							//present 10 images with g or pg rating(include that in query)
+							for ( var imageIndex=0; imageIndex <10; imageIndex++) {
+								console.log (result[imageIndex].rating);
+								if (result[imageIndex].rating =="g" || result[imageIndex].rating =="pg") {
+									musicalArtist=$('<div>');
+									p = $('<p>');
+									p.text(result[imageIndex].rating); 
+
+
+									musicImage = $('<img>');
+									musicImage.attr('src', result[imageIndex].images.fixed_height.url);
+									musicImage.attr('class','o-image');
+									musicalArtist.append(p);
+                    				musicalArtist.append(musicImage);
+                    				//$('#gifsAppearHere').prepend(gifDiv); 
+                    				$('#image-area').prepend(musicImage);
+
+								}// end if
+
+							}//end for
+
+						});//end of done
+
+						//each image to have click event so they stop and start 
+					});// end button click
+
+
+
+//===============================================================================
  	function match(){
  		console.log('i am in match');
  		same = false;
@@ -71,12 +131,8 @@ $(document).ready(function() {
 						//create a query  public key "dc6zaTOxFJmzC”
 
 							//build a url using api parameters
-							var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + artist + "&api_key=dc6zaTOxFJmzC&limit=15";
-							//q - search query term or phrase
-							//limit - (optional) number of results to return, maximum 100. Default 25
-							//rating - limit results to those rated (y,g, pg, pg-13 or r).
-							//fmt - (optional) return results in html or json format (useful for viewing responses as GIFs to debug/test)
-						//do an ajax request
+							var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + artist + "&api_key=dc6zaTOxFJmzC&limit=20";
+							
 						//make ajax request
 						$.ajax({
 							url: queryURL, 
@@ -103,13 +159,15 @@ $(document).ready(function() {
 
 									musicImage = $('<img>');
 									musicImage.attr('src', result[imageIndex].images.fixed_height.url);
+									musicImage.attr('class','o-image');
 
 									musicalArtist.append(p);
                     				musicalArtist.append(musicImage);
                     				//$('#gifsAppearHere').prepend(gifDiv); 
-                    				$('#button-area').prepend(musicImage);
+                    				$('#image-area').prepend(musicImage);
 
-								}// end if
+								}// end if 
+
 
 							}//end for
 
